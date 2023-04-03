@@ -25,4 +25,5 @@
 
 `boltctl enroll $UUID`
 
-
+=== time change
+sudo ntpdate pool.ntp.org
