@@ -4,6 +4,42 @@
 == Useful repositories
 https://github.com/Raymo111/i3lock-color
 
+== SDKMAN remove java so it is controlled by jenv
+
+Change:
+
+```
+export SDKMAN_CANDIDATES_DIR="${SDKMAN_DIR}/candidates"
+
+for candidate_name in "${SDKMAN_CANDIDATES[@]}"; do
+	candidate_dir="${SDKMAN_CANDIDATES_DIR}/${candidate_name}/current"
+	if [[ -h "$candidate_dir" || -d "${candidate_dir}" ]]; then
+		__sdkman_export_candidate_home "$candidate_name" "$candidate_dir"
+		__sdkman_prepend_candidate_to_path "$candidate_dir"
+	fi
+done
+unset candidate_name candidate_dir
+export PATH
+```
+
+to:
+
+```
+export SDKMAN_CANDIDATES_DIR="${SDKMAN_DIR}/candidates"
+
+for candidate_name in "${SDKMAN_CANDIDATES[@]}"; do
+	candidate_dir="${SDKMAN_CANDIDATES_DIR}/${candidate_name}/current"
+	if [[ -h "$candidate_dir" || -d "${candidate_dir}" ]]; then
+    if [[ ${candidate_name} != "java" ]]; then
+		 __sdkman_export_candidate_home "$candidate_name" "$candidate_dir"
+		 __sdkman_prepend_candidate_to_path "$candidate_dir"
+    fi
+	fi
+done
+unset candidate_name candidate_dir
+export PATH
+```
+
 === git PR local checkout +
 `git fetch origin pull/ID/head:BRANCHNAME`
 
